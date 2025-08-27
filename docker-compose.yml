@@ -17,3 +17,16 @@ services:
       KAFKA_CONTROLLER_QUORUM_VOTERS: '1@broker:9093'
       KAFKA_INTER_BROKER_LISTENER_NAME: 'PLAINTEXT'
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+
+  redis:
+    image: redis:6.2-alpine
+    restart: always
+    ports:
+      - '127.0.0.1:6379:6379'
+    command: redis-server --save 20 1 --loglevel warning --requirepass eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
+    volumes:
+      - redis:/data
+
+volumes:
+  redis:
+    driver: local
