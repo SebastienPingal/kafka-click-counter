@@ -23,6 +23,12 @@ export async function incrementClickCounter(): Promise<number> {
       await redisClient.connect()
     }
     const newCount = await redisClient.incr("clicks:count")
+    // Publish the new total for SSE subscribers
+    try {
+      await redisClient.publish("clicks:total", String(newCount))
+    } catch (pubErr) {
+      console.error("⚠️ Failed to publish clicks:total:", pubErr)
+    }
     // 🧮 Click counter incremented
     console.log("🧮 Click counter incremented:", newCount)
     return newCount
