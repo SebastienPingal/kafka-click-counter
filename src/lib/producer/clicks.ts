@@ -9,7 +9,6 @@ export const clicksProducer = kafka.producer()
 export async function sendClickEvent(event: { event: string }) {
   try {
     await clicksProducer.connect()
-    console.log('🕖 connected to clicks producer')
 
     await clicksProducer.send({
       topic: "clicks.events",
